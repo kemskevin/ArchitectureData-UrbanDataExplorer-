@@ -1,0 +1,14 @@
+# Dependances optionnelles pour le calcul distribue (competence C2.2).
+#
+# Le build par defaut utilise pandas et n'a pas besoin de ces paquets.
+# Installez-les uniquement pour executer les moteurs distribues :
+#   pip install -r pipeline/requirements-distributed.txt
+#
+# Spark necessite aussi un JDK (Java 17+). Le cluster Docker fourni dans
+# docker-compose.spark.yml embarque deja Spark, donc ces paquets ne sont
+# requis que pour une execution locale hors Docker.
+
+dask[dataframe]>=2024.1.0
+distributed>=2024.1.0
+pyspark>=3.5.0
+kafka-python>=2.0.2

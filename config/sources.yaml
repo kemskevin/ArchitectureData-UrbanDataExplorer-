@@ -1,0 +1,131 @@
+project:
+  name: Urban Data Explorer
+  city: Paris
+  country: France
+
+sources:
+  dvf_2025_paris:
+    label: DVF 2025 filtre Paris
+    group: data.gouv.fr
+    kind: dvf_zip
+    url: https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002321/valeursfoncieres-2025.txt.zip
+    target_dir: data/bronze/raw/dvf
+    target_file: valeursfoncieres-2025.txt.zip
+    filtered_file: valeursfoncieres-2025-paris.csv
+    department_code: "75"
+    delimiter: "|"
+    summary: Transactions immobilieres 2025 filtrees sur Paris.
+
+  dvf_2024_paris:
+    label: DVF 2024 filtre Paris
+    group: data.gouv.fr
+    kind: dvf_zip
+    url: https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002306/valeursfoncieres-2024.txt.zip
+    target_dir: data/bronze/raw/dvf
+    target_file: valeursfoncieres-2024.txt.zip
+    filtered_file: valeursfoncieres-2024-paris.csv
+    department_code: "75"
+    delimiter: "|"
+    summary: Transactions immobilieres 2024 filtrees sur Paris.
+
+  dvf_2023_paris:
+    label: DVF 2023 filtre Paris
+    group: data.gouv.fr
+    kind: dvf_zip
+    url: https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002251/valeursfoncieres-2023.txt.zip
+    target_dir: data/bronze/raw/dvf
+    target_file: valeursfoncieres-2023.txt.zip
+    filtered_file: valeursfoncieres-2023-paris.csv
+    department_code: "75"
+    delimiter: "|"
+    summary: Transactions immobilieres 2023 filtrees sur Paris.
+
+  insee_filosofi_2021:
+    label: INSEE Filosofi 2021
+    group: INSEE
+    kind: file
+    url: https://www.insee.fr/fr/statistiques/fichier/8229323/BASE_TD_FILO_IRIS_2021_DEC_CSV.zip
+    target_dir: data/bronze/raw/insee
+    target_file: filosofi-iris-2021.csv.zip
+    summary: Revenus, niveau de vie et precarite a l'echelle IRIS.
+
+  paris_loyers:
+    label: Paris Data - Encadrement des loyers
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/logement-encadrement-des-loyers/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B
+    target_dir: data/bronze/raw/paris
+    target_file: encadrement-loyers.csv
+    summary: Loyers de reference par quartier, typologie et epoque de construction.
+
+  paris_social_housing:
+    label: Paris Data - Logements sociaux finances
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/logements-sociaux-finances-a-paris/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B
+    target_dir: data/bronze/raw/paris
+    target_file: logements-sociaux-finances.csv
+    summary: Programmes de logements sociaux finances a Paris par annee et arrondissement.
+
+  bruitparif_stats_2024:
+    label: Bruitparif - Statistiques air bruit 2024
+    group: Bruitparif
+    kind: file
+    url: https://www.bruitparif.fr/pages/En-tete/800%20Le%20bruit%20en%20%C3%8Ele-de-France/300%20carto-air-bruit-en-idf/600%20Opendata%20air-bruit/Statistiques%20air-bruit%202024.xlsx
+    target_dir: data/bronze/raw/bruitparif
+    target_file: statistiques-air-bruit-2024.xlsx
+    summary: Statistiques air et bruit utiles pour construire l'indicateur environnemental.
+
+  bruitparif_sig_2024:
+    label: Bruitparif - Couches SIG air bruit 2024
+    group: Bruitparif
+    kind: file
+    url: https://www.bruitparif.fr/pages/En-tete/800%20Le%20bruit%20en%20%C3%8Ele-de-France/300%20carto-air-bruit-en-idf/600%20Opendata%20air-bruit/Couches%20SIG%20air-bruit%202024_9_classes.zip
+    target_dir: data/bronze/raw/bruitparif
+    target_file: couches-sig-air-bruit-2024.zip
+    summary: Couches geospatiales a croiser avec les arrondissements.
+
+  reference_arrondissements:
+    label: Arrondissements de Paris
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FParis
+    target_dir: data/bronze/reference
+    target_file: arrondissements.geojson
+    summary: Fond geographique de reference pour la cartographie et les jointures spatiales.
+
+  quartier_paris:
+    label: Quartiers administratifs de Paris
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/quartier_paris/exports/geojson?lang=fr&timezone=Europe%2FParis
+    target_dir: data/bronze/reference
+    target_file: quartier_paris.geojson
+    summary: Fond geographique des 80 quartiers administratifs de Paris.
+
+  voie_paris:
+    label: Voies de Paris
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/voie/exports/geojson?lang=fr&timezone=Europe%2FParis
+    target_dir: data/bronze/reference
+    target_file: voie-paris.geojson
+    summary: Geometrie lineaire des voies parisiennes, utile pour afficher les rues comme de vraies lignes.
+
+  adresses_ban:
+    label: Adresses BAN Paris
+    group: opendata.paris.fr
+    kind: file
+    url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/adresses-ban/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B
+    target_dir: data/bronze/reference
+    target_file: adresses-ban.csv
+    summary: Referentiel d'adresses geolocalisees de Paris pour rattacher les ventes DVF a un point.
+
+  iris_paris:
+    label: IRIS Paris
+    group: opendata.iledefrance.fr
+    kind: file
+    url: https://opendata.iledefrance.fr/api/explore/v2.1/catalog/datasets/iris/exports/csv?lang=fr&refine=dep%3A%2275%22&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
+    target_dir: data/bronze/reference
+    target_file: iris-paris.csv
+    summary: Contours IRIS de Paris utiles pour les enrichissements spatiaux fins.

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urban Data Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css"
+    />
+    <link rel="stylesheet" href="/static/styles.css?v=20260429-ui7" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy-block">
+          <p class="eyebrow">Urban Data Explorer</p>
+          <h1>Lire Paris plus vite, du <span class="hero-accent">macro</span> au quartier.</h1>
+        </div>
+      </header>
+
+      <section class="control-panel panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Pilotage</p>
+            <h2>Choisir la vue de la carte</h2>
+          </div>
+        </div>
+
+        <article class="control-group">
+          <div class="control-group-head">
+            <span class="control-step">1</span>
+            <div>
+              <p class="eyebrow">Carte</p>
+              <h3>Choisir la vue</h3>
+            </div>
+          </div>
+          <div class="control-bar control-bar--view">
+            <label>
+              <span>Metrique cartographique</span>
+              <select id="metric-select"></select>
+            </label>
+            <label>
+              <span>Niveau cartographique</span>
+              <select id="map-level-select"></select>
+            </label>
+            <label>
+              <span>Annee ventes</span>
+              <select id="sales-year-select"></select>
+            </label>
+          </div>
+          <p class="control-context" id="view-summary"></p>
+        </article>
+      </section>
+
+      <section class="overview-panel panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Vue ville</p>
+            <h2>Paris en un coup d'oeil</h2>
+          </div>
+        </div>
+        <div class="summary-grid" id="city-summary"></div>
+      </section>
+
+      <section class="main-grid">
+        <article class="panel map-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Carte</p>
+              <h2 id="map-title">Chargement de la couche...</h2>
+            </div>
+            <div class="metric-badge" id="metric-context"></div>
+          </div>
+          <div id="map"></div>
+          <div class="legend-row" id="map-legend"></div>
+        </article>
+
+        <aside class="side-stack">
+          <article class="panel">
+            <div class="panel-head panel-head-compact">
+              <div>
+                <p class="eyebrow">Comparaison</p>
+                <h2>Comparer deux zones</h2>
+              </div>
+            </div>
+            <section class="compare-zone-picker">
+              <div class="compare-zone-head">
+                <span class="control-step">2</span>
+                <div>
+                  <p class="eyebrow">Zones A et B</p>
+                  <h3>Choisir les arrondissements</h3>
+                </div>
+              </div>
+              <div class="control-bar control-bar--compare compare-arrondissement-controls">
+                <label>
+                  <span>Arrondissement A</span>
+                  <select id="left-select"></select>
+                </label>
+                <label>
+                  <span>Arrondissement B</span>
+                  <select id="right-select"></select>
+                </label>
+              </div>
+              <p class="control-context control-context--compare" id="comparison-summary"></p>
+            </section>
+            <div id="compare-panel"></div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Suivi</p>
+              <h2 id="timeline-title">Evolution de l'arrondissement A</h2>
+            </div>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <h3>Prix median au m²</h3>
+              <div id="sales-chart"></div>
+            </div>
+            <div class="chart-card">
+              <h3>Logements sociaux finances</h3>
+              <div id="social-chart"></div>
+            </div>
+            <div class="chart-card">
+              <h3>Loyer majore moyen</h3>
+              <div id="rent-chart"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Panorama</p>
+              <h2>Les 20 arrondissements en un coup d'oeil</h2>
+            </div>
+          </div>
+          <div class="ranking-grid" id="ranking-grid"></div>
+        </article>
+      </section>
+
+      <section class="footer-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sources ouvertes</p>
+              <h2>Jeux de donnees utilises dans le projet</h2>
+            </div>
+          </div>
+          <div class="source-list source-list-footer" id="source-list"></div>
+        </article>
+      </section>
+    </div>
+
+    <script src="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.js"></script>
+    <script src="/static/app.js?v=20260429-ui7" defer></script>
+  </body>
+</html>

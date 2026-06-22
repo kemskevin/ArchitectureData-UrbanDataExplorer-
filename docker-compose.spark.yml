@@ -1,0 +1,77 @@
+# Cluster Spark pour la demonstration du calcul distribue (competence C2.2).
+#
+# Usage :
+#   docker compose -f docker-compose.yml -f docker-compose.spark.yml up -d spark-master spark-worker-1 spark-worker-2
+#
+# Spark Master UI : http://localhost:8080
+# Soumission d'un job d'agregation distribuee :
+#   docker compose -f docker-compose.yml -f docker-compose.spark.yml run --rm spark-submit
+#
+# Les workers sont scalables horizontalement : ajoutez spark-worker-3, etc.,
+# ou augmentez SPARK_WORKER_CORES / SPARK_WORKER_MEMORY pour scaler verticalement.
+
+services:
+  spark-master:
+    image: bitnami/spark:3.5
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - "8080:8080"   # Master web UI
+      - "7077:7077"   # Master RPC
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  spark-worker-1:
+    image: bitnami/spark:3.5
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=${SPARK_WORKER_CORES:-2}
+      - SPARK_WORKER_MEMORY=${SPARK_WORKER_MEMORY:-2G}
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    depends_on:
+      spark-master:
+        condition: service_healthy
+
+  spark-worker-2:
+    image: bitnami/spark:3.5
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=${SPARK_WORKER_CORES:-2}
+      - SPARK_WORKER_MEMORY=${SPARK_WORKER_MEMORY:-2G}
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    depends_on:
+      spark-master:
+        condition: service_healthy
+
+  # Service ponctuel qui soumet le job d'agregation distribuee au cluster.
+  spark-submit:
+    image: bitnami/spark:3.5
+    profiles: ["tools"]
+    working_dir: /app
+    environment:
+      - UDE_SPARK_MASTER=spark://spark-master:7077
+      - PYTHONPATH=/app:/app/pipeline/src
+    command:
+      - spark-submit
+      - --master
+      - spark://spark-master:7077
+      - /app/pipeline/jobs/spark_aggregate_job.py
+    depends_on:
+      spark-master:
+        condition: service_healthy
+    volumes:
+      - .:/app
